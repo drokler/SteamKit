@@ -7,7 +7,7 @@ using System.Security.Cryptography;
 
 namespace SteamKit2
 {
-    class Crc32 : HashAlgorithm
+    public class Crc32 : HashAlgorithm
     {
         public const UInt32 DefaultPolynomial = 0xedb88320;
         public const UInt32 DefaultSeed = 0xffffffff;

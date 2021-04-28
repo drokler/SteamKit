@@ -316,17 +316,17 @@ namespace SteamKit2
         }
 
 
-        static Task<MachineID>? generateTask;
+    //    static Task<MachineID>? generateTask;
 
 
         public static void Init()
         {
-            generateTask = Task.Factory.StartNew( GenerateMachineID );
+           // generateTask = Task.Factory.StartNew( GenerateMachineID );
         }
 
-        public static byte[]? GetMachineID()
+        public static byte[]? GetMachineID(string name)
         {
-            if ( generateTask is null )
+           /* if ( generateTask is null )
             {
                 DebugLog.WriteLine( nameof( HardwareUtils ), "GetMachineID() called before Init()" );
                 return null;
@@ -338,9 +338,9 @@ namespace SteamKit2
             {
                 DebugLog.WriteLine( nameof( HardwareUtils ), "Unable to generate machine_id in a timely fashion, logons may fail" );
                 return null;
-            }
+            }*/
 
-            MachineID machineId = generateTask.Result;
+            MachineID machineId = GenerateMachineID(name);
 
             using ( MemoryStream ms = new MemoryStream() )
             {
@@ -351,7 +351,7 @@ namespace SteamKit2
         }
 
 
-        static MachineID GenerateMachineID()
+        static MachineID GenerateMachineID(string name)
         {
             // the aug 25th 2015 CM update made well-formed machine MessageObjects required for logon
             // this was flipped off shortly after the update rolled out, likely due to linux steamclients running on distros without a way to build a machineid
