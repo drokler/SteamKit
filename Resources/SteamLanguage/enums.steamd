@@ -704,6 +704,10 @@ enum EOSType
 	Macos1015 = -82;
 	MacOS1016 = -81;
 	MacOS11 = -80;
+	MacOS111 = -79;
+	MacOS1017 = -78;
+	MacOS12 = -77;
+	MacOS13 = -76;
 	MacOSMax = -1;
 
 	LinuxUnknown = -203;
@@ -727,6 +731,7 @@ enum EOSType
 	Linux54 = -185;
 	Linux6x = -184;
 	Linux7x = -183;
+	Linux510 = -182;
 	LinuxMax = -101;
 
 	WinUnknown = 0;
@@ -753,8 +758,10 @@ enum EOSType
 	Windows10 = 16;
 	Win2016 = 17;
 	Win2019 = 18;
+	Win2022 = 19;
+	Win11 = 20;
 
-	WinMAX = 19;
+	WinMAX = 21;
 };
 
 enum EServerType
@@ -923,6 +930,14 @@ enum EBillingType
 	FreeCommercialLicense = 15;
 
 	NumBillingTypes = 16;
+};
+
+enum EPackageStatus
+{
+	Available = 0;
+	Preorder = 1;
+	Unavailable = 2;
+	Invalid = 3;
 };
 
 enum EActivationCodeClass<uint>

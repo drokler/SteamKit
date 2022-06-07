@@ -269,13 +269,9 @@ namespace SteamKit2
                 { EMsg.ClientEmailAddrInfo, HandleEmailAddrInfo },
                 { EMsg.ClientWalletInfoUpdate, HandleWalletInfo },
                 { EMsg.ClientRequestWebAPIAuthenticateUserNonceResponse, HandleWebAPIUserNonce },
+                { EMsg.ClientVanityURLChangedNotification, HandleVanityURLChangedNotification },
                 { EMsg.ClientMarketingMessageUpdate2, HandleMarketingMessageUpdate },
             };
-        }
-
-        static SteamUser()
-        {
-            HardwareUtils.Init();
         }
 
 
@@ -351,6 +347,7 @@ namespace SteamKit2
             logon.Body.client_package_version = 1771; // todo: determine if this is still required
             logon.Body.supports_rate_limit_response = true;
             logon.Body.machine_id = HardwareUtils.GetMachineID(details.Username!);
+            logon.Body.machine_id = HardwareUtils.GetMachineID( Client.Configuration.MachineInfoProvider );
 
             // steam guard 
             logon.Body.auth_code = details.AuthCode;
@@ -406,6 +403,7 @@ namespace SteamKit2
             logon.Body.cell_id = details.CellID ?? Client.Configuration.CellID;
 
             logon.Body.machine_id = HardwareUtils.GetMachineID("");
+            logon.Body.machine_id = HardwareUtils.GetMachineID( Client.Configuration.MachineInfoProvider );
 
             this.Client.Send( logon );
         }
@@ -505,9 +503,7 @@ namespace SteamKit2
                 throw new ArgumentNullException( nameof(packetMsg) );
             }
 
-            bool haveFunc = dispatchMap.TryGetValue( packetMsg.MsgType, out var handlerFunc );
-
-            if ( !haveFunc )
+            if ( !dispatchMap.TryGetValue( packetMsg.MsgType, out var handlerFunc ) )
             {
                 // ignore messages that we don't have a handler function for
                 return;
@@ -520,7 +516,7 @@ namespace SteamKit2
         #region ClientMsg Handlers
         void HandleLoggedOff( IPacketMsg packetMsg )
         {
-            EResult result = EResult.Invalid;
+            EResult result;
 
             if ( packetMsg.IsProto )
             {
@@ -597,6 +593,12 @@ namespace SteamKit2
         {
             var userNonce = new ClientMsgProtobuf<CMsgClientRequestWebAPIAuthenticateUserNonceResponse>( packetMsg );
             var callback = new WebAPIUserNonceCallback(userNonce.TargetJobID, userNonce.Body);
+            this.Client.PostCallback( callback );
+        }
+        void HandleVanityURLChangedNotification( IPacketMsg packetMsg )
+        {
+            var vanityUrl = new ClientMsgProtobuf<CMsgClientVanityURLChangedNotification>( packetMsg );
+            var callback = new VanityURLChangedCallback( vanityUrl.TargetJobID, vanityUrl.Body );
             this.Client.PostCallback( callback );
         }
         void HandleMarketingMessageUpdate( IPacketMsg packetMsg )

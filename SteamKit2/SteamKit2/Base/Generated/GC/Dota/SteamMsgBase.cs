@@ -2356,6 +2356,16 @@ namespace SteamKit2.GC.Dota.Internal
         public void Resethas_accepted_china_ssa() => __pbn__has_accepted_china_ssa = null;
         private bool? __pbn__has_accepted_china_ssa;
 
+        [global::ProtoBuf.ProtoMember(39)]
+        public bool is_banned_steam_china
+        {
+            get => __pbn__is_banned_steam_china.GetValueOrDefault();
+            set => __pbn__is_banned_steam_china = value;
+        }
+        public bool ShouldSerializeis_banned_steam_china() => __pbn__is_banned_steam_china != null;
+        public void Resetis_banned_steam_china() => __pbn__is_banned_steam_china = null;
+        private bool? __pbn__is_banned_steam_china;
+
     }
 
     [global::ProtoBuf.ProtoContract()]
@@ -3730,6 +3740,165 @@ namespace SteamKit2.GC.Dota.Internal
         public bool ShouldSerializeismember() => __pbn__ismember != null;
         public void Resetismember() => __pbn__ismember = null;
         private bool? __pbn__ismember;
+
+    }
+
+    [global::ProtoBuf.ProtoContract()]
+    public partial class CMsgGCHAppCheersReceived : global::ProtoBuf.IExtensible
+    {
+        private global::ProtoBuf.IExtension __pbn__extensionData;
+        global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+            => global::ProtoBuf.Extensible.GetExtensionObject(ref __pbn__extensionData, createIfMissing);
+
+        [global::ProtoBuf.ProtoMember(1)]
+        public uint appid
+        {
+            get => __pbn__appid.GetValueOrDefault();
+            set => __pbn__appid = value;
+        }
+        public bool ShouldSerializeappid() => __pbn__appid != null;
+        public void Resetappid() => __pbn__appid = null;
+        private uint? __pbn__appid;
+
+        [global::ProtoBuf.ProtoMember(2)]
+        public global::System.Collections.Generic.List<CheerTarget> cheer_targets { get; } = new global::System.Collections.Generic.List<CheerTarget>();
+
+        [global::ProtoBuf.ProtoContract()]
+        public partial class CheerTypeAmount : global::ProtoBuf.IExtensible
+        {
+            private global::ProtoBuf.IExtension __pbn__extensionData;
+            global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+                => global::ProtoBuf.Extensible.GetExtensionObject(ref __pbn__extensionData, createIfMissing);
+
+            [global::ProtoBuf.ProtoMember(1)]
+            public uint cheer_type
+            {
+                get => __pbn__cheer_type.GetValueOrDefault();
+                set => __pbn__cheer_type = value;
+            }
+            public bool ShouldSerializecheer_type() => __pbn__cheer_type != null;
+            public void Resetcheer_type() => __pbn__cheer_type = null;
+            private uint? __pbn__cheer_type;
+
+            [global::ProtoBuf.ProtoMember(2)]
+            public uint cheer_amount
+            {
+                get => __pbn__cheer_amount.GetValueOrDefault();
+                set => __pbn__cheer_amount = value;
+            }
+            public bool ShouldSerializecheer_amount() => __pbn__cheer_amount != null;
+            public void Resetcheer_amount() => __pbn__cheer_amount = null;
+            private uint? __pbn__cheer_amount;
+
+        }
+
+        [global::ProtoBuf.ProtoContract()]
+        public partial class CheerTarget : global::ProtoBuf.IExtensible
+        {
+            private global::ProtoBuf.IExtension __pbn__extensionData;
+            global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+                => global::ProtoBuf.Extensible.GetExtensionObject(ref __pbn__extensionData, createIfMissing);
+
+            [global::ProtoBuf.ProtoMember(1)]
+            public ulong cheer_target
+            {
+                get => __pbn__cheer_target.GetValueOrDefault();
+                set => __pbn__cheer_target = value;
+            }
+            public bool ShouldSerializecheer_target() => __pbn__cheer_target != null;
+            public void Resetcheer_target() => __pbn__cheer_target = null;
+            private ulong? __pbn__cheer_target;
+
+            [global::ProtoBuf.ProtoMember(2)]
+            public global::System.Collections.Generic.List<CMsgGCHAppCheersReceived.CheerTypeAmount> cheer_types { get; } = new global::System.Collections.Generic.List<CMsgGCHAppCheersReceived.CheerTypeAmount>();
+
+        }
+
+    }
+
+    [global::ProtoBuf.ProtoContract()]
+    public partial class CMsgGCHAppCheersGetAllowedTypes : global::ProtoBuf.IExtensible
+    {
+        private global::ProtoBuf.IExtension __pbn__extensionData;
+        global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+            => global::ProtoBuf.Extensible.GetExtensionObject(ref __pbn__extensionData, createIfMissing);
+
+        [global::ProtoBuf.ProtoMember(1)]
+        public uint appid
+        {
+            get => __pbn__appid.GetValueOrDefault();
+            set => __pbn__appid = value;
+        }
+        public bool ShouldSerializeappid() => __pbn__appid != null;
+        public void Resetappid() => __pbn__appid = null;
+        private uint? __pbn__appid;
+
+        [global::ProtoBuf.ProtoMember(2)]
+        public ulong cheer_target
+        {
+            get => __pbn__cheer_target.GetValueOrDefault();
+            set => __pbn__cheer_target = value;
+        }
+        public bool ShouldSerializecheer_target() => __pbn__cheer_target != null;
+        public void Resetcheer_target() => __pbn__cheer_target = null;
+        private ulong? __pbn__cheer_target;
+
+    }
+
+    [global::ProtoBuf.ProtoContract()]
+    public partial class CMsgGCHAppCheersGetAllowedTypesResponse : global::ProtoBuf.IExtensible
+    {
+        private global::ProtoBuf.IExtension __pbn__extensionData;
+        global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+            => global::ProtoBuf.Extensible.GetExtensionObject(ref __pbn__extensionData, createIfMissing);
+
+        [global::ProtoBuf.ProtoMember(1)]
+        public global::System.Collections.Generic.List<uint> cheer_types_valid_all_users { get; } = new global::System.Collections.Generic.List<uint>();
+
+        [global::ProtoBuf.ProtoMember(2)]
+        public global::System.Collections.Generic.List<CheerRemaps> cheer_remaps { get; } = new global::System.Collections.Generic.List<CheerRemaps>();
+
+        [global::ProtoBuf.ProtoMember(3)]
+        public uint cache_duration
+        {
+            get => __pbn__cache_duration.GetValueOrDefault();
+            set => __pbn__cache_duration = value;
+        }
+        public bool ShouldSerializecache_duration() => __pbn__cache_duration != null;
+        public void Resetcache_duration() => __pbn__cache_duration = null;
+        private uint? __pbn__cache_duration;
+
+        [global::ProtoBuf.ProtoContract()]
+        public partial class CheerRemaps : global::ProtoBuf.IExtensible
+        {
+            private global::ProtoBuf.IExtension __pbn__extensionData;
+            global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+                => global::ProtoBuf.Extensible.GetExtensionObject(ref __pbn__extensionData, createIfMissing);
+
+            [global::ProtoBuf.ProtoMember(1)]
+            public uint original_cheer_type
+            {
+                get => __pbn__original_cheer_type.GetValueOrDefault();
+                set => __pbn__original_cheer_type = value;
+            }
+            public bool ShouldSerializeoriginal_cheer_type() => __pbn__original_cheer_type != null;
+            public void Resetoriginal_cheer_type() => __pbn__original_cheer_type = null;
+            private uint? __pbn__original_cheer_type;
+
+            [global::ProtoBuf.ProtoMember(2)]
+            public uint remapped_cheer_type
+            {
+                get => __pbn__remapped_cheer_type.GetValueOrDefault();
+                set => __pbn__remapped_cheer_type = value;
+            }
+            public bool ShouldSerializeremapped_cheer_type() => __pbn__remapped_cheer_type != null;
+            public void Resetremapped_cheer_type() => __pbn__remapped_cheer_type = null;
+            private uint? __pbn__remapped_cheer_type;
+
+            [global::ProtoBuf.ProtoMember(3)]
+            public global::System.Collections.Generic.List<uint> account_ids { get; } = new global::System.Collections.Generic.List<uint>();
+
+        }
 
     }
 

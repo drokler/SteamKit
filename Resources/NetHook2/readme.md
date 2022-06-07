@@ -8,8 +8,8 @@ These messages are dumped to file, and can be analyzed further with NetHookAnaly
 
 #### Building
 
-1. Execute `SetupDependencies.cmd` to automatically acquire the zlib and protobuf headers and libraries.
-2. Build with VS 2015 (the v140 toolset is required to link with libprotobuf correctly).
+1. Execute `SetupDependencies.cmd` to automatically acquire and build the zlib and protobuf headers and libraries. You will need CMake for this.
+2. Build `NetHook2.sln` with Visual Studio 2019.
 3. Behold: a fresh new `NetHook2.dll` is born into this world. You can place this DLL wherever you like, or leave where you built it. You'll need its full file path later when injecting.
 
 #### Updating steammessages_base
@@ -28,6 +28,10 @@ As SteamKit2 releases can lag behind Steam changes, the current master branch ma
 You can download latest available build from [GitHub Actions here](https://github.com/SteamRE/SteamKit/actions).  
 Click on the latest commit and scroll all the way down to Artifacts section.
 There, you can download NetHook and NetHookAnalyzer.
+
+#### Installing dependencies
+
+NetHook requires Microsoft Visual C++ Redistributable (x86) package for usage. There is a possibility that this dependency is already covered on your machine due to being installed by other software that you use, however, Windows doesn't come with it by default, so it's worthy to ensure that it's installed. For majority of use cases, installing latest `vc_redist` package from [here](https://aka.ms/vs/17/release/vc_redist.x86.exe) should be sufficient. If you're building NH2 manually with VS older than 2015, you may need a different version - read more about `vc_redist` on [MSDN](https://docs.microsoft.com/cpp/windows/latest-supported-vc-redist) page, which also has links for other versions. This step resolves common `rundll32` error of "the specified module could not be found".
 
 #### To begin dumping network packets
 

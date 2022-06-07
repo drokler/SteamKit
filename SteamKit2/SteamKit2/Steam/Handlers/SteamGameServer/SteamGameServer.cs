@@ -98,7 +98,7 @@ namespace SteamKit2
         {
             if ( details == null )
             {
-                throw new ArgumentNullException( "details" );
+                throw new ArgumentNullException( nameof(details) );
             }
 
             if ( string.IsNullOrEmpty( details.Token ) )
@@ -125,7 +125,7 @@ namespace SteamKit2
 
             logon.Body.client_os_type = ( uint )Utils.GetOSType();
             logon.Body.game_server_app_id = ( int )details.AppID;
-            logon.Body.machine_id = HardwareUtils.GetMachineID("");
+            logon.Body.machine_id = HardwareUtils.GetMachineID( Client.Configuration.MachineInfoProvider );
 
             logon.Body.game_server_token = details.Token;
 
@@ -159,7 +159,7 @@ namespace SteamKit2
 
             logon.Body.client_os_type = ( uint )Utils.GetOSType();
             logon.Body.game_server_app_id = ( int )appId;
-            logon.Body.machine_id = HardwareUtils.GetMachineID("");
+            logon.Body.machine_id = HardwareUtils.GetMachineID( Client.Configuration.MachineInfoProvider );
 
             this.Client.Send( logon );
         }
@@ -220,9 +220,7 @@ namespace SteamKit2
                 throw new ArgumentNullException( nameof(packetMsg) );
             }
 
-            bool haveFunc = dispatchMap.TryGetValue( packetMsg.MsgType, out var handlerFunc );
-
-            if ( !haveFunc )
+            if ( !dispatchMap.TryGetValue( packetMsg.MsgType, out var handlerFunc ) )
             {
                 // ignore messages that we don't have a handler function for
                 return;

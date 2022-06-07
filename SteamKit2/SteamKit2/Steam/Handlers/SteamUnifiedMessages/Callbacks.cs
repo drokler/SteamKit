@@ -4,10 +4,8 @@
  */
 
 using System;
-using System.IO;
 using System.Reflection;
 using ProtoBuf;
-using SteamKit2.Internal;
 
 namespace SteamKit2
 {
@@ -24,16 +22,11 @@ namespace SteamKit2
             public EResult Result { get; private set; }
 
             /// <summary>
-            /// Gets the raw binary response.
-            /// </summary>
-            public byte[] ResponseRaw { get; private set; }
-
-            /// <summary>
             /// Gets the name of the Service.
             /// </summary>
             public string ServiceName
             {
-                get { return MethodName.Split( '.' )[0]; }
+                get { return MethodName.Split( '.' )[ 0 ]; }
             }
 
             /// <summary>
@@ -41,7 +34,7 @@ namespace SteamKit2
             /// </summary>
             public string RpcName
             {
-                get { return MethodName.Substring( ServiceName.Length + 1 ).Split( '#' )[0]; }
+                get { return MethodName.Substring( ServiceName.Length + 1 ).Split( '#' )[ 0 ]; }
             }
 
             /// <summary>
@@ -49,14 +42,15 @@ namespace SteamKit2
             /// </summary>
             public string MethodName { get; private set; }
 
+            private PacketClientMsgProtobuf PacketMsg;
 
-            internal ServiceMethodResponse( JobID jobID, EResult result, CMsgClientServiceMethodLegacyResponse resp )
+            internal ServiceMethodResponse( PacketClientMsgProtobuf packetMsg )
             {
-                JobID = jobID;
-
-                Result = result;
-                ResponseRaw = resp.serialized_method_response;
-                MethodName = resp.method_name ?? string.Empty;
+                var protoHeader = packetMsg.Header.Proto;
+                JobID = protoHeader.jobid_target;
+                Result = ( EResult )protoHeader.eresult;
+                MethodName = protoHeader.target_job_name;
+                PacketMsg = packetMsg;
             }
 
 
@@ -66,12 +60,10 @@ namespace SteamKit2
             /// <typeparam name="T">Protobuf type of the response message.</typeparam>
             /// <returns>The response to the message sent through <see cref="SteamUnifiedMessages"/>.</returns>
             public T GetDeserializedResponse<T>()
-                where T : IExtensible
+                where T : IExtensible, new()
             {
-                using ( var ms = new MemoryStream( ResponseRaw ) )
-                {
-                    return Serializer.Deserialize<T>( ms );
-                }
+                var msg = new ClientMsgProtobuf<T>( PacketMsg );
+                return msg.Body;
             }
         }
 
@@ -85,7 +77,7 @@ namespace SteamKit2
             /// </summary>
             public string ServiceName
             {
-                get { return MethodName.Split( '.' )[0]; }
+                get { return MethodName.Split( '.' )[ 0 ]; }
             }
 
             /// <summary>
@@ -93,7 +85,7 @@ namespace SteamKit2
             /// </summary>
             public string RpcName
             {
-                get { return MethodName.Substring( ServiceName.Length + 1 ).Split( '#' )[0]; }
+                get { return MethodName.Substring( ServiceName.Length + 1 ).Split( '#' )[ 0 ]; }
             }
 
             /// <summary>
@@ -110,8 +102,8 @@ namespace SteamKit2
             internal ServiceMethodNotification( Type messageType, IPacketMsg packetMsg )
             {
                 // Bounce into generic-land.
-                var setupMethod = GetType().GetMethod( nameof(Setup), BindingFlags.Static | BindingFlags.NonPublic ).MakeGenericMethod( messageType );
-                (MethodName, Body) = ((string, object))setupMethod.Invoke( this, new[] { packetMsg } );
+                var setupMethod = GetType().GetMethod( nameof(Setup), BindingFlags.Static | BindingFlags.NonPublic )!.MakeGenericMethod( messageType );
+                (MethodName, Body) = ((string, object))setupMethod.Invoke( this, new[] { packetMsg } )!;
             }
 
             static (string methodName, object body) Setup<T>( IPacketMsg packetMsg )

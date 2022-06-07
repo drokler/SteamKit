@@ -1862,12 +1862,16 @@ namespace SteamKit2
 		AccountNotFriends = 111,
 		LimitedUserAccount = 112,
 		CantRemoveItem = 113,
-		AccountHasBeenDeleted = 114,
-		AccountHasAnExistingUserCancelledLicense = 115,
-		DeniedDueToCommunityCooldown = 116,
+		AccountDeleted = 114,
+		ExistingUserCancelledLicense = 115,
+		CommunityCooldown = 116,
 		NoLauncherSpecified = 117,
 		MustAgreeToSSA = 118,
 		LauncherMigrated = 119,
+		SteamRealmMismatch = 120,
+		InvalidSignature = 121,
+		ParseFailure = 122,
+		NoVerifiedPhone = 123,
 	}
 	public enum EUniverse
 	{
@@ -2502,6 +2506,10 @@ namespace SteamKit2
 		Macos1015 = -82,
 		MacOS1016 = -81,
 		MacOS11 = -80,
+		MacOS111 = -79,
+		MacOS1017 = -78,
+		MacOS12 = -77,
+		MacOS13 = -76,
 		MacOSMax = -1,
 		LinuxUnknown = -203,
 		Linux22 = -202,
@@ -2524,6 +2532,7 @@ namespace SteamKit2
 		Linux54 = -185,
 		Linux6x = -184,
 		Linux7x = -183,
+		Linux510 = -182,
 		LinuxMax = -101,
 		WinUnknown = 0,
 		Win311 = 1,
@@ -2544,7 +2553,9 @@ namespace SteamKit2
 		Windows10 = 16,
 		Win2016 = 17,
 		Win2019 = 18,
-		WinMAX = 19,
+		Win2022 = 19,
+		Win11 = 20,
+		WinMAX = 21,
 	}
 	public enum EServerType
 	{
@@ -2695,6 +2706,13 @@ namespace SteamKit2
 		CommercialLicense = 14,
 		FreeCommercialLicense = 15,
 		NumBillingTypes = 16,
+	}
+	public enum EPackageStatus
+	{
+		Available = 0,
+		Preorder = 1,
+		Unavailable = 2,
+		Invalid = 3,
 	}
 	public enum EActivationCodeClass : uint
 	{

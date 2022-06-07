@@ -1,8 +1,59 @@
 ------------------------------------------------------------------------------
-v 2.4.0			July 13, 2020 (Alpha 1)
+v 2.4.0			December 4 2021
 ------------------------------------------------------------------------------
 * Updated protobuf-net dependency to v3.0.
-* Updated Steam protobufs.
+* Added a MemoryServerListProvider implementation.
+* Added `CallProtobufAsync<T>` method to WebAPI to deserialize response as Protobuf instead of KeyValues.
+* Added `SteamChinaOnly` flag to CDN server objects.
+* Added new APIs to allow consumers to provide their own machine info.
+* Added `SteamUser.VanityUrlChangedCallback`.
+* Added `SteamApps.PurchaseResponseCallback`.
+* Added `SteamApps.RedeemGuestPassResponseCallback`.
+* Added new `SteamContent` handler.
+* Added the ability to set `ClientMsgProtoBuf<T>.Body`.
+* SteamKit2 now ships a net6.0 assembly as well as a netstandard2.0 assembly.
+* Enabled strong name signing on the SteamKit2 assembly.
+* Changed thread names to not get truncated on Linux.
+* Changed message handler exception handling to log the full `Exception` object rather than just the message.
+* Changed the implementation of `SteamUnifiedMessages` to use the newer message protocol under the hood.
+* Removed some DebugLog spam from WebSocket connections.
+* Updated C# nullability annotations.
+* Updated Steam enums and protobufs.
+
+Bug Fixes
+* Fixed a race in `CMClient.Send`.
+* Fixed a race in `AsyncJob` registration.
+* Fixed an issue opening files in `IsolatedStorageServerListProvider`.
+* Fixed throwing an exception when calling WebAPI twice with the same arguments.
+* Fixed WebAPI mutating the supplied arguments dictionary.
+* Fixed cryptographic errors in .NET 6 previews.
+* Fixed `IDebugNetworkListener` not being given encryption handshake messages.
+* Fixed a possible unhandled exception when opening a TCP connection.
+* Fixed the `UnobservedTaskException` event being triggered on .NET 6 if a TCP connection times out.
+* Fixed WebSocket connections constructing an incorrect IPv6 URI.
+* Fixed `DisconnectedCallback.UserInitiated` being true when a connection was terminated due to an internal error.
+* Fixed `SmartCMServerList` getting fixated on the first CM server when all servers are marked as bad.
+
+BREAKING CHANGES
+* `SteamWorkshop.EnumerateUserPublishedFiles` and its associated callback has been removed.
+* `SteamWorkshop.EnumerateUserSubscribedFiles` and its associated callback has been removed.
+* `SteamApps.PICSRequest` has been changed from a class to a struct, and `only_public` has been removed.
+* A non-final optional parameter has been removed from `SteamApps.PICSGetProductInfo`. For any caller that supplied
+* three unnamed arguments, this is a source-breaking change as the value for `onlyPublic` will now be passed to the
+* method parameter `metaDataOnly`. Please audit your code for any calls to `PICSGetProductInfo` as the compiler will
+* not warn you about this change.
+* Changed `SteamApps.GetPICSProductInfo` signature to now use `PICSRequest` objects.
+* Removed some old non-Protobuf messages.
+* Updated nullability to match latest BCL annotations and to fix .NET 6 SDK analysis warnings.
+* `SteamClient.AddHandler` will now throw an `ArgumentNullException` if the handler is null, rather than crashing on a `NullReferenceException`.
+* WebAPI will now throw an `ArgumentException` if the `method` parameter is `null`, rather than crashing on a `NullReferenceException`.
+* CDN timeouts options are now properties instead of fields.
+* `CDNClient` has been heavily refactored and is now `SteamKit2.CDN.Client`.
+* `ClientMsgProtobuf` can now only be constructed from a `PacketClientMsgProtobuf`.
+* Removed `IClientMsg.Deserialize(...)` and implementations.
+* Removed `ServiceMethodResponse.ResponseRaw`.
+* `CDN.Server.AllowedAppIds` is now not-nullable. Check for empty instead.
+
 
 ------------------------------------------------------------------------------
 v 2.3.0			July 05, 2020 
@@ -145,7 +196,7 @@ This is the final release to support .NET Framework 4.5.
 ------------------------------------------------------------------------------
 v 1.8.2			Mar 23, 2017
 ------------------------------------------------------------------------------
-* Added support for Binary KeyValues field type 10 (`Int64`) (#376)
+* Added support for Binary KeyValues field type 10 (`Int64`)
 * Obsoleted `SteamApps.GetAppInfo`, `SteamApps.GetPackageInfo`, and `SteamApps.GetAppChanges`. Use the PICS equivalents instead.
 * Updated game-related GC messages and protobufs.
 

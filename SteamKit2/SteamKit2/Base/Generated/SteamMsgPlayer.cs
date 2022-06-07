@@ -438,171 +438,6 @@ namespace SteamKit2.Internal
     }
 
     [global::ProtoBuf.ProtoContract()]
-    public partial class CPlayer_GetFriendsAppsActivity_Request : global::ProtoBuf.IExtensible
-    {
-        private global::ProtoBuf.IExtension __pbn__extensionData;
-        global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
-            => global::ProtoBuf.Extensible.GetExtensionObject(ref __pbn__extensionData, createIfMissing);
-
-        [global::ProtoBuf.ProtoMember(1)]
-        [global::System.ComponentModel.DefaultValue("")]
-        public string news_language
-        {
-            get => __pbn__news_language ?? "";
-            set => __pbn__news_language = value;
-        }
-        public bool ShouldSerializenews_language() => __pbn__news_language != null;
-        public void Resetnews_language() => __pbn__news_language = null;
-        private string __pbn__news_language;
-
-        [global::ProtoBuf.ProtoMember(2)]
-        public uint request_flags
-        {
-            get => __pbn__request_flags.GetValueOrDefault();
-            set => __pbn__request_flags = value;
-        }
-        public bool ShouldSerializerequest_flags() => __pbn__request_flags != null;
-        public void Resetrequest_flags() => __pbn__request_flags = null;
-        private uint? __pbn__request_flags;
-
-    }
-
-    [global::ProtoBuf.ProtoContract()]
-    public partial class CPlayer_GetFriendsAppsActivity_Response : global::ProtoBuf.IExtensible
-    {
-        private global::ProtoBuf.IExtension __pbn__extensionData;
-        global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
-            => global::ProtoBuf.Extensible.GetExtensionObject(ref __pbn__extensionData, createIfMissing);
-
-        [global::ProtoBuf.ProtoMember(1)]
-        public global::System.Collections.Generic.List<AppFriendsInfo> trending { get; } = new global::System.Collections.Generic.List<AppFriendsInfo>();
-
-        [global::ProtoBuf.ProtoMember(2)]
-        public global::System.Collections.Generic.List<AppFriendsInfo> recent_purchases { get; } = new global::System.Collections.Generic.List<AppFriendsInfo>();
-
-        [global::ProtoBuf.ProtoMember(3)]
-        public global::System.Collections.Generic.List<AppFriendsInfo> unowned { get; } = new global::System.Collections.Generic.List<AppFriendsInfo>();
-
-        [global::ProtoBuf.ProtoMember(4)]
-        public global::System.Collections.Generic.List<AppFriendsInfo> popular { get; } = new global::System.Collections.Generic.List<AppFriendsInfo>();
-
-        [global::ProtoBuf.ProtoMember(5)]
-        public global::System.Collections.Generic.List<AppFriendsInfo> dont_forget { get; } = new global::System.Collections.Generic.List<AppFriendsInfo>();
-
-        [global::ProtoBuf.ProtoMember(6)]
-        public global::System.Collections.Generic.List<AppFriendsInfo> being_discussed { get; } = new global::System.Collections.Generic.List<AppFriendsInfo>();
-
-        [global::ProtoBuf.ProtoMember(7)]
-        public global::System.Collections.Generic.List<AppFriendsInfo> new_to_group { get; } = new global::System.Collections.Generic.List<AppFriendsInfo>();
-
-        [global::ProtoBuf.ProtoMember(8)]
-        public global::System.Collections.Generic.List<AppFriendsInfo> returned_to_group { get; } = new global::System.Collections.Generic.List<AppFriendsInfo>();
-
-        [global::ProtoBuf.ProtoMember(9)]
-        [global::System.ComponentModel.DefaultValue(0)]
-        public uint active_friend_count
-        {
-            get => __pbn__active_friend_count ?? 0;
-            set => __pbn__active_friend_count = value;
-        }
-        public bool ShouldSerializeactive_friend_count() => __pbn__active_friend_count != null;
-        public void Resetactive_friend_count() => __pbn__active_friend_count = null;
-        private uint? __pbn__active_friend_count;
-
-        [global::ProtoBuf.ProtoContract()]
-        public partial class FriendPlayTime : global::ProtoBuf.IExtensible
-        {
-            private global::ProtoBuf.IExtension __pbn__extensionData;
-            global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
-                => global::ProtoBuf.Extensible.GetExtensionObject(ref __pbn__extensionData, createIfMissing);
-
-            [global::ProtoBuf.ProtoMember(1, DataFormat = global::ProtoBuf.DataFormat.FixedSize)]
-            public ulong steamid
-            {
-                get => __pbn__steamid.GetValueOrDefault();
-                set => __pbn__steamid = value;
-            }
-            public bool ShouldSerializesteamid() => __pbn__steamid != null;
-            public void Resetsteamid() => __pbn__steamid = null;
-            private ulong? __pbn__steamid;
-
-            [global::ProtoBuf.ProtoMember(2)]
-            public uint minutes_played_this_week
-            {
-                get => __pbn__minutes_played_this_week.GetValueOrDefault();
-                set => __pbn__minutes_played_this_week = value;
-            }
-            public bool ShouldSerializeminutes_played_this_week() => __pbn__minutes_played_this_week != null;
-            public void Resetminutes_played_this_week() => __pbn__minutes_played_this_week = null;
-            private uint? __pbn__minutes_played_this_week;
-
-            [global::ProtoBuf.ProtoMember(3)]
-            public uint minutes_played_two_weeks
-            {
-                get => __pbn__minutes_played_two_weeks.GetValueOrDefault();
-                set => __pbn__minutes_played_two_weeks = value;
-            }
-            public bool ShouldSerializeminutes_played_two_weeks() => __pbn__minutes_played_two_weeks != null;
-            public void Resetminutes_played_two_weeks() => __pbn__minutes_played_two_weeks = null;
-            private uint? __pbn__minutes_played_two_weeks;
-
-            [global::ProtoBuf.ProtoMember(4)]
-            public uint minutes_played_forever
-            {
-                get => __pbn__minutes_played_forever.GetValueOrDefault();
-                set => __pbn__minutes_played_forever = value;
-            }
-            public bool ShouldSerializeminutes_played_forever() => __pbn__minutes_played_forever != null;
-            public void Resetminutes_played_forever() => __pbn__minutes_played_forever = null;
-            private uint? __pbn__minutes_played_forever;
-
-            [global::ProtoBuf.ProtoMember(5)]
-            public uint event_count
-            {
-                get => __pbn__event_count.GetValueOrDefault();
-                set => __pbn__event_count = value;
-            }
-            public bool ShouldSerializeevent_count() => __pbn__event_count != null;
-            public void Resetevent_count() => __pbn__event_count = null;
-            private uint? __pbn__event_count;
-
-        }
-
-        [global::ProtoBuf.ProtoContract()]
-        public partial class AppFriendsInfo : global::ProtoBuf.IExtensible
-        {
-            private global::ProtoBuf.IExtension __pbn__extensionData;
-            global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
-                => global::ProtoBuf.Extensible.GetExtensionObject(ref __pbn__extensionData, createIfMissing);
-
-            [global::ProtoBuf.ProtoMember(1)]
-            public uint appid
-            {
-                get => __pbn__appid.GetValueOrDefault();
-                set => __pbn__appid = value;
-            }
-            public bool ShouldSerializeappid() => __pbn__appid != null;
-            public void Resetappid() => __pbn__appid = null;
-            private uint? __pbn__appid;
-
-            [global::ProtoBuf.ProtoMember(2)]
-            public global::System.Collections.Generic.List<CPlayer_GetFriendsAppsActivity_Response.FriendPlayTime> friends { get; } = new global::System.Collections.Generic.List<CPlayer_GetFriendsAppsActivity_Response.FriendPlayTime>();
-
-            [global::ProtoBuf.ProtoMember(3)]
-            public uint display_order
-            {
-                get => __pbn__display_order.GetValueOrDefault();
-                set => __pbn__display_order = value;
-            }
-            public bool ShouldSerializedisplay_order() => __pbn__display_order != null;
-            public void Resetdisplay_order() => __pbn__display_order = null;
-            private uint? __pbn__display_order;
-
-        }
-
-    }
-
-    [global::ProtoBuf.ProtoContract()]
     public partial class CPlayer_GetGameBadgeLevels_Request : global::ProtoBuf.IExtensible
     {
         private global::ProtoBuf.IExtension __pbn__extensionData;
@@ -1884,6 +1719,25 @@ namespace SteamKit2.Internal
     }
 
     [global::ProtoBuf.ProtoContract()]
+    public partial class ProfilePreferences : global::ProtoBuf.IExtensible
+    {
+        private global::ProtoBuf.IExtension __pbn__extensionData;
+        global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+            => global::ProtoBuf.Extensible.GetExtensionObject(ref __pbn__extensionData, createIfMissing);
+
+        [global::ProtoBuf.ProtoMember(1)]
+        public bool hide_profile_awards
+        {
+            get => __pbn__hide_profile_awards.GetValueOrDefault();
+            set => __pbn__hide_profile_awards = value;
+        }
+        public bool ShouldSerializehide_profile_awards() => __pbn__hide_profile_awards != null;
+        public void Resethide_profile_awards() => __pbn__hide_profile_awards = null;
+        private bool? __pbn__hide_profile_awards;
+
+    }
+
+    [global::ProtoBuf.ProtoContract()]
     public partial class CPlayer_GetProfileCustomization_Response : global::ProtoBuf.IExtensible
     {
         private global::ProtoBuf.IExtension __pbn__extensionData;
@@ -1908,6 +1762,9 @@ namespace SteamKit2.Internal
 
         [global::ProtoBuf.ProtoMember(4)]
         public global::System.Collections.Generic.List<PurchasedCustomization> purchased_customizations { get; } = new global::System.Collections.Generic.List<PurchasedCustomization>();
+
+        [global::ProtoBuf.ProtoMember(5)]
+        public ProfilePreferences profile_preferences { get; set; }
 
         [global::ProtoBuf.ProtoContract()]
         public partial class PurchasedCustomization : global::ProtoBuf.IExtensible
@@ -2149,6 +2006,27 @@ namespace SteamKit2.Internal
 
     [global::ProtoBuf.ProtoContract()]
     public partial class CPlayer_SetProfileTheme_Response : global::ProtoBuf.IExtensible
+    {
+        private global::ProtoBuf.IExtension __pbn__extensionData;
+        global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+            => global::ProtoBuf.Extensible.GetExtensionObject(ref __pbn__extensionData, createIfMissing);
+
+    }
+
+    [global::ProtoBuf.ProtoContract()]
+    public partial class CPlayer_SetProfilePreferences_Request : global::ProtoBuf.IExtensible
+    {
+        private global::ProtoBuf.IExtension __pbn__extensionData;
+        global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+            => global::ProtoBuf.Extensible.GetExtensionObject(ref __pbn__extensionData, createIfMissing);
+
+        [global::ProtoBuf.ProtoMember(1)]
+        public ProfilePreferences profile_preferences { get; set; }
+
+    }
+
+    [global::ProtoBuf.ProtoContract()]
+    public partial class CPlayer_SetProfilePreferences_Response : global::ProtoBuf.IExtensible
     {
         private global::ProtoBuf.IExtension __pbn__extensionData;
         global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
@@ -2509,6 +2387,16 @@ namespace SteamKit2.Internal
         public bool ShouldSerializeagreement_type() => __pbn__agreement_type != null;
         public void Resetagreement_type() => __pbn__agreement_type = null;
         private EAgreementType? __pbn__agreement_type;
+
+        [global::ProtoBuf.ProtoMember(2)]
+        public uint time_signed_utc
+        {
+            get => __pbn__time_signed_utc.GetValueOrDefault();
+            set => __pbn__time_signed_utc = value;
+        }
+        public bool ShouldSerializetime_signed_utc() => __pbn__time_signed_utc != null;
+        public void Resettime_signed_utc() => __pbn__time_signed_utc = null;
+        private uint? __pbn__time_signed_utc;
 
     }
 
@@ -3331,6 +3219,26 @@ namespace SteamKit2.Internal
         public void Resetseconds_allowed_today() => __pbn__seconds_allowed_today = null;
         private uint? __pbn__seconds_allowed_today;
 
+        [global::ProtoBuf.ProtoMember(7)]
+        public bool age_verification_pending
+        {
+            get => __pbn__age_verification_pending.GetValueOrDefault();
+            set => __pbn__age_verification_pending = value;
+        }
+        public bool ShouldSerializeage_verification_pending() => __pbn__age_verification_pending != null;
+        public void Resetage_verification_pending() => __pbn__age_verification_pending = null;
+        private bool? __pbn__age_verification_pending;
+
+        [global::ProtoBuf.ProtoMember(8)]
+        public bool block_minors
+        {
+            get => __pbn__block_minors.GetValueOrDefault();
+            set => __pbn__block_minors = value;
+        }
+        public bool ShouldSerializeblock_minors() => __pbn__block_minors != null;
+        public void Resetblock_minors() => __pbn__block_minors = null;
+        private bool? __pbn__block_minors;
+
     }
 
     [global::ProtoBuf.ProtoContract()]
@@ -3565,7 +3473,6 @@ namespace SteamKit2.Internal
         CPlayer_GetOwnedGames_Response GetOwnedGames(CPlayer_GetOwnedGames_Request request);
         CPlayer_GetPlayNext_Response GetPlayNext(CPlayer_GetPlayNext_Request request);
         CPlayer_GetFriendsGameplayInfo_Response GetFriendsGameplayInfo(CPlayer_GetFriendsGameplayInfo_Request request);
-        CPlayer_GetFriendsAppsActivity_Response GetFriendsAppsActivity(CPlayer_GetFriendsAppsActivity_Request request);
         CPlayer_GetGameBadgeLevels_Response GetGameBadgeLevels(CPlayer_GetGameBadgeLevels_Request request);
         CPlayer_GetProfileBackground_Response GetProfileBackground(CPlayer_GetProfileBackground_Request request);
         CPlayer_SetProfileBackground_Response SetProfileBackground(CPlayer_SetProfileBackground_Request request);
@@ -3587,6 +3494,7 @@ namespace SteamKit2.Internal
         CPlayer_GetPurchasedAndUpgradedProfileCustomizations_Response GetPurchasedAndUpgradedProfileCustomizations(CPlayer_GetPurchasedAndUpgradedProfileCustomizations_Request request);
         CPlayer_GetProfileThemesAvailable_Response GetProfileThemesAvailable(CPlayer_GetProfileThemesAvailable_Request request);
         CPlayer_SetProfileTheme_Response SetProfileTheme(CPlayer_SetProfileTheme_Request request);
+        CPlayer_SetProfilePreferences_Response SetProfilePreferences(CPlayer_SetProfilePreferences_Request request);
         CPlayer_PostStatusToFriends_Response PostStatusToFriends(CPlayer_PostStatusToFriends_Request request);
         CPlayer_GetPostedStatus_Response GetPostedStatus(CPlayer_GetPostedStatus_Request request);
         CPlayer_DeletePostedStatus_Response DeletePostedStatus(CPlayer_DeletePostedStatus_Request request);
