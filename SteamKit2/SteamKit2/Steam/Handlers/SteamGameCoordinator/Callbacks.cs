@@ -1,5 +1,8 @@
 ﻿using System;
+using System.IO;
+using ProtoBuf.Meta;
 using SteamKit2.GC;
+using SteamKit2.GC.CSGO.Internal;
 using SteamKit2.Internal;
 
 namespace SteamKit2
@@ -60,5 +63,65 @@ namespace SteamKit2
                 }
             }
         }
+
+
+
+        /// <summary>
+        /// This callback is fired when a game coordinator message is recieved from the network.
+        /// </summary>
+        public class ClientWelcomeMessageCallback : MessageCallback
+        {
+            internal ClientWelcomeMessageCallback(CMsgGCClient gcMsg) : base(gcMsg)
+            {
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public class ClientRequestJoinServerDataMessageCallback : MessageCallback
+        {
+            internal ClientRequestJoinServerDataMessageCallback( CMsgGCClient gcMsg ) : base( gcMsg )
+            {
+            }
+        }
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        public class UpdateMultipleMessageCallback : MessageCallback
+        {
+            internal UpdateMultipleMessageCallback( CMsgGCClient gcMsg ) : base( gcMsg )
+            {
+            }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        public class ClientConnectionStatusMessageCallback : MessageCallback
+        {
+            public bool NoSession { get; }
+            internal ClientConnectionStatusMessageCallback( CMsgGCClient gcMsg ) : base( gcMsg )
+            {
+                var msg = new ClientGCMsgProtobuf<CMsgConnectionStatus>( Message );
+                NoSession = msg.Body.status == GCConnectionStatus.GCConnectionStatus_NO_SESSION;
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public class OnItemCreateMessageCallback : MessageCallback
+        {
+            public CSOEconItem Item { get; }
+            internal OnItemCreateMessageCallback( CMsgGCClient gcMsg ) : base( gcMsg )
+            {
+                var msg = new ClientGCMsgProtobuf<CMsgSOSingleObject>( Message );
+                using var ms = new MemoryStream( msg.Body.object_data );
+                Item = ( CSOEconItem )RuntimeTypeModel.Default.Deserialize( ms, null, typeof( CSOEconItem ) );
+
+            }
+        }
+
     }
 }

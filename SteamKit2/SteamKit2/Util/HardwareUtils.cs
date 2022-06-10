@@ -336,8 +336,8 @@ namespace SteamKit2
             }
         }
 
-        public static byte[]? GetMachineID(IMachineInfoProvider machineInfoProvider)
-        {
+        public static byte[]? GetMachineID( string name)
+        {/*
             if (!generationTable.TryGetValue(machineInfoProvider, out var generateTask))
             {
                 DebugLog.WriteLine( nameof( HardwareUtils ), "GetMachineID() called before Init()" );
@@ -360,15 +360,32 @@ namespace SteamKit2
             {
                 // Rethrow the original exception rather than a wrapped AggregateException.
                 ExceptionDispatchInfo.Capture(ex.InnerException).Throw();
-            }
+            }*/
 
-            MachineID machineId = generateTask.Result;
+            MachineID machineId = GenerateMachineID(name);
 
             using MemoryStream ms = new MemoryStream();
             machineId.WriteToStream( ms );
             return ms.ToArray();
         }
+        static MachineID GenerateMachineID(string name)
+        {
+            // the aug 25th 2015 CM update made well-formed machine MessageObjects required for logon
+            // this was flipped off shortly after the update rolled out, likely due to linux steamclients running on distros without a way to build a machineid
+            // so while a valid MO isn't currently (as of aug 25th) required, they could be in the future and we'll abide by The Valve Law now
 
+
+            var machineId = new MachineID();
+
+            // Custom implementations can fail for any particular field, in which case we fall back to DefaultMachineInfoProvider.
+            machineId.SetBB3( GetHexString( Encoding.UTF8.GetBytes( name + "-SteamKit" ) ) );
+            machineId.SetFF2( GetHexString( Encoding.UTF8.GetBytes( "SteamKit-MacAddress" + name) ) );
+            machineId.Set3B3( GetHexString( Encoding.UTF8.GetBytes( "SteamKit-DiskId" + name ) ) );
+
+            // 333 is some sort of user supplied data and is currently unused
+
+            return machineId;
+        }
 
         static MachineID GenerateMachineID(object? state)
         {

@@ -171,7 +171,7 @@ namespace SteamKit2
             }
 
 
-            internal LoggedOnCallback( EResult result )
+            public  LoggedOnCallback( EResult result )
             {
                 this.Result = result;
             }

@@ -77,25 +77,25 @@ namespace SteamKit2
             this.handlers = new OrderedDictionary();
 
             // Start calculating machine info so that it is (hopefully) ready by the time we get to logging in.
-            HardwareUtils.Init( configuration.MachineInfoProvider );
+            //HardwareUtils.Init( configuration.MachineInfoProvider );
 
             // add this library's handlers
             // notice: SteamFriends should be added before SteamUser due to AccountInfoCallback
-            this.AddHandler( new SteamFriends() );
+            //this.AddHandler( new SteamFriends() );
             this.AddHandler( new SteamUser() );
-            this.AddHandler( new SteamApps() );
+            //this.AddHandler( new SteamApps() );
             this.AddHandler( new SteamGameCoordinator() );
             this.AddHandler( new SteamGameServer() );
-            this.AddHandler( new SteamUserStats() );
-            this.AddHandler( new SteamMasterServer() );
-            this.AddHandler( new SteamCloud() );
-            this.AddHandler( new SteamWorkshop() );
-            this.AddHandler( new SteamTrading() );
-            this.AddHandler( new SteamUnifiedMessages() );
-            this.AddHandler( new SteamScreenshots() );
-            this.AddHandler( new SteamMatchmaking() );
+            //this.AddHandler( new SteamUserStats() );
+            //this.AddHandler( new SteamMasterServer() );
+            //this.AddHandler( new SteamCloud() );
+            //this.AddHandler( new SteamWorkshop() );
+            //this.AddHandler( new SteamTrading() );
+            //this.AddHandler( new SteamUnifiedMessages() );
+            //this.AddHandler( new SteamScreenshots() );
+            //this.AddHandler( new SteamMatchmaking() );
             this.AddHandler( new SteamNetworking() );
-            this.AddHandler( new SteamContent() );
+            //this.AddHandler( new SteamContent() );
 
             using ( var process = Process.GetCurrentProcess() )
             {

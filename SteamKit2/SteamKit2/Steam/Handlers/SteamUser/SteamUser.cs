@@ -5,6 +5,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Net;
 using SteamKit2.Internal;
 
 namespace SteamKit2
@@ -306,9 +307,24 @@ namespace SteamKit2
                 return;
             }
 
+            var logon = CreateLogonMessage( details, Client.Universe, Client.LocalIP!, Client.Configuration.CellID);
+            
+            this.Client.Send( logon );
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="details"></param>
+        /// <param name="universe"></param>
+        /// <param name="localIP"></param>
+        /// <param name="cellId"></param>
+        /// <returns></returns>
+        public static ClientMsgProtobuf<CMsgClientLogon> CreateLogonMessage( LogOnDetails details, EUniverse universe, IPAddress localIP, uint cellId )
+        {
             var logon = new ClientMsgProtobuf<CMsgClientLogon>( EMsg.ClientLogon );
 
-            SteamID steamId = new SteamID( details.AccountID, details.AccountInstance, Client.Universe, EAccountType.Individual );
+            SteamID steamId = new SteamID( details.AccountID, details.AccountInstance, universe, EAccountType.Individual );
 
             if ( details.LoginID.HasValue )
             {
@@ -320,7 +336,7 @@ namespace SteamKit2
             }
             else
             {
-                logon.Body.obfuscated_private_ip = NetHelpers.GetMsgIPAddress( this.Client.LocalIP! ).ObfuscatePrivateIP();
+                logon.Body.obfuscated_private_ip = NetHelpers.GetMsgIPAddress( localIP ).ObfuscatePrivateIP();
             }
 
             // Legacy field, Steam client still sets it
@@ -339,15 +355,15 @@ namespace SteamKit2
             logon.Body.protocol_version = MsgClientLogon.CurrentProtocol;
             logon.Body.client_os_type = ( uint )details.ClientOSType;
             logon.Body.client_language = details.ClientLanguage;
-            logon.Body.cell_id = details.CellID ?? Client.Configuration.CellID;
+            logon.Body.cell_id = details.CellID ?? cellId;
 
             logon.Body.steam2_ticket_request = details.RequestSteam2Ticket;
 
             // we're now using the latest steamclient package version, this is required to get a proper sentry file for steam guard
             logon.Body.client_package_version = 1771; // todo: determine if this is still required
             logon.Body.supports_rate_limit_response = true;
-            logon.Body.machine_id = HardwareUtils.GetMachineID(details.Username!);
-            logon.Body.machine_id = HardwareUtils.GetMachineID( Client.Configuration.MachineInfoProvider );
+
+            logon.Body.machine_id = HardwareUtils.GetMachineID( details.Username! );
 
             // steam guard 
             logon.Body.auth_code = details.AuthCode;
@@ -358,8 +374,7 @@ namespace SteamKit2
             logon.Body.sha_sentryfile = details.SentryFileHash;
             logon.Body.eresult_sentryfile = ( int )( details.SentryFileHash != null ? EResult.OK : EResult.FileNotFound );
 
-
-            this.Client.Send( logon );
+            return logon;
         }
 
         /// <summary>
@@ -402,8 +417,8 @@ namespace SteamKit2
             logon.Body.client_language = details.ClientLanguage;
             logon.Body.cell_id = details.CellID ?? Client.Configuration.CellID;
 
+            //logon.Body.machine_id = HardwareUtils.GetMachineID("");
             logon.Body.machine_id = HardwareUtils.GetMachineID("");
-            logon.Body.machine_id = HardwareUtils.GetMachineID( Client.Configuration.MachineInfoProvider );
 
             this.Client.Send( logon );
         }
@@ -427,36 +442,47 @@ namespace SteamKit2
         /// <param name="details">The details pertaining to the response.</param>
         public void SendMachineAuthResponse( MachineAuthDetails details )
         {
-            if ( details == null )
+            var response = BuildUpdateMachineAuthResponse(details);
+
+            this.Client.Send( response );
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="details"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        public static ClientMsgProtobuf<CMsgClientUpdateMachineAuthResponse> BuildUpdateMachineAuthResponse(MachineAuthDetails details)
+        {
+            if (details == null)
             {
-                throw new ArgumentNullException( nameof(details) );
+                throw new ArgumentNullException(nameof(details));
             }
 
-            var response = new ClientMsgProtobuf<CMsgClientUpdateMachineAuthResponse>( EMsg.ClientUpdateMachineAuthResponse );
+            var response = new ClientMsgProtobuf<CMsgClientUpdateMachineAuthResponse>(EMsg.ClientUpdateMachineAuthResponse);
 
             // so we respond to the correct message
-            if ( details.JobID != null )
+            if (details.JobID != null)
             {
                 response.ProtoHeader.jobid_target = details.JobID;
             }
 
-            response.Body.cubwrote = ( uint )details.BytesWritten;
-            response.Body.eresult = ( uint )details.Result;
+            response.Body.cubwrote = (uint) details.BytesWritten;
+            response.Body.eresult = (uint) details.Result;
 
             response.Body.filename = details.FileName;
-            response.Body.filesize = ( uint )details.FileSize;
+            response.Body.filesize = (uint) details.FileSize;
 
-            response.Body.getlasterror = ( uint )details.LastError;
-            response.Body.offset = ( uint )details.Offset;
+            response.Body.getlasterror = (uint) details.LastError;
+            response.Body.offset = (uint) details.Offset;
 
             response.Body.sha_file = details.SentryFileHash;
 
             response.Body.otp_identifier = details.OneTimePassword.Identifier;
-            response.Body.otp_type = ( int )details.OneTimePassword.Type;
+            response.Body.otp_type = (int) details.OneTimePassword.Type;
             response.Body.otp_value = details.OneTimePassword.Value;
-
-            this.Client.Send( response );
-
+            return response;
         }
 
         /// <summary>

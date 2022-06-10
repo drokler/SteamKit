@@ -34,15 +34,10 @@ using SteamKit2;
 // 1. connect to server
 // 2. logon to account using username, password, and sha-1 hash of the sentry file
 
-if ( args.Length < 2 )
-{
-    Console.WriteLine( "Sample5: No username and password specified!" );
-    return;
-}
 
 // save our logon details
-var user = args[ 0 ];
-var pass = args[ 1 ];
+var user = "lammzivtmm";
+var pass = "g3jeib01bf87";
 
 string authCode = null, twoFactorAuth = null;
 
