@@ -100,6 +100,9 @@ namespace SteamKit2
         /// </summary>
         public class ClientConnectionStatusMessageCallback : MessageCallback
         {
+            /// <summary>
+            /// NoSession
+            /// </summary>
             public bool NoSession { get; }
             internal ClientConnectionStatusMessageCallback( CMsgGCClient gcMsg ) : base( gcMsg )
             {
@@ -113,6 +116,9 @@ namespace SteamKit2
         /// </summary>
         public class OnItemCreateMessageCallback : MessageCallback
         {
+            /// <summary>
+            /// 
+            /// </summary>
             public CSOEconItem Item { get; }
             internal OnItemCreateMessageCallback( CMsgGCClient gcMsg ) : base( gcMsg )
             {

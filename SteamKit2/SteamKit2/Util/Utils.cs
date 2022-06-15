@@ -277,15 +277,13 @@ namespace SteamKit2
                 return true;
             }
 
-            switch ( ch )
+            return ch switch
             {
-                case '-':
-                case '.':
-                case '_':
-                    return true;
-            }
-
-            return false;
+                '-' => true,
+                '.' => true,
+                '_' => true,
+                _ => false
+            };
         }
 
         public static string UrlEncode( string input )
@@ -319,9 +317,17 @@ namespace SteamKit2
             return encoded.ToString();
         }
     }
-
+    /// <summary>
+    /// 
+    /// </summary>
     public static class NetHelpers
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="activeSocket"></param>
+        /// <returns></returns>
+        /// <exception cref="InvalidOperationException"></exception>
         public static IPAddress GetLocalIP(Socket activeSocket)
         {
             var ipEndPoint = activeSocket.LocalEndPoint as IPEndPoint;
@@ -331,7 +337,11 @@ namespace SteamKit2
 
             return ipEndPoint.Address;
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="ipAddr"></param>
+        /// <returns></returns>
         public static IPAddress GetIPAddress( uint ipAddr )
         {
             byte[] addrBytes = BitConverter.GetBytes( ipAddr );
@@ -339,7 +349,11 @@ namespace SteamKit2
 
             return new IPAddress( addrBytes );
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="ipAddr"></param>
+        /// <returns></returns>
         public static uint GetIPAddressAsUInt( IPAddress ipAddr )
         {
             byte[] addrBytes = ipAddr.GetAddressBytes();
@@ -347,7 +361,11 @@ namespace SteamKit2
 
             return BitConverter.ToUInt32( addrBytes, 0 );
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="ipAddr"></param>
+        /// <returns></returns>
         public static IPAddress GetIPAddress( this CMsgIPAddress ipAddr )
         {
             if ( ipAddr.ShouldSerializev6() )
@@ -359,7 +377,11 @@ namespace SteamKit2
                 return GetIPAddress( ipAddr.v4 );
             }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="ipAddr"></param>
+        /// <returns></returns>
         public static CMsgIPAddress GetMsgIPAddress( IPAddress ipAddr )
         {
             var msgIpAddress = new CMsgIPAddress();
@@ -378,7 +400,11 @@ namespace SteamKit2
 
             return msgIpAddress;
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="msgIpAddress"></param>
+        /// <returns></returns>
         public static CMsgIPAddress ObfuscatePrivateIP( this CMsgIPAddress msgIpAddress )
         {
             var localIp = msgIpAddress;
@@ -412,7 +438,12 @@ namespace SteamKit2
 
             return localIp;
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="stringValue"></param>
+        /// <param name="endPoint"></param>
+        /// <returns></returns>
         public static bool TryParseIPEndPoint( string stringValue, [NotNullWhen( true )] out IPEndPoint? endPoint )
         {
             var colonPosition = stringValue.LastIndexOf( ':' );
@@ -423,13 +454,13 @@ namespace SteamKit2
                 return false;
             }
 
-            if ( !IPAddress.TryParse( stringValue.Substring( 0, colonPosition ), out var address ) )
+            if ( !IPAddress.TryParse( stringValue.AsSpan( 0, colonPosition ).ToString(), out var address ) )
             {
                 endPoint = null;
                 return false;
             }
 
-            if ( !ushort.TryParse( stringValue.Substring( colonPosition + 1 ), out var port ) )
+            if ( !ushort.TryParse( stringValue.AsSpan( colonPosition + 1 ).ToString(), out var port ) )
             {
                 endPoint = null;
                 return false;
@@ -438,20 +469,20 @@ namespace SteamKit2
             endPoint = new IPEndPoint( address, port );
             return true;
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="endPoint"></param>
+        /// <returns></returns>
+        /// <exception cref="InvalidOperationException"></exception>
         public static (string host, int port) ExtractEndpointHost( EndPoint endPoint )
         {
-            switch ( endPoint )
+            return endPoint switch
             {
-                case IPEndPoint ipep:
-                    return ( ipep.Address.ToString(), ipep.Port );
-
-                case DnsEndPoint dns:
-                    return ( dns.Host, dns.Port );
-
-                default:
-                    throw new InvalidOperationException( "Unknown endpoint type." );
-            }
+                IPEndPoint ipep => ( ipep.Address.ToString(), ipep.Port ),
+                DnsEndPoint dns => ( dns.Host, dns.Port ),
+                _ => throw new InvalidOperationException( "Unknown endpoint type." )
+            };
         }
     }
 }

@@ -7,61 +7,103 @@ using System.Security.Cryptography;
 
 namespace SteamKit2
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class Crc32 : HashAlgorithm
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public const UInt32 DefaultPolynomial = 0xedb88320;
+        /// <summary>
+        /// 
+        /// </summary>
         public const UInt32 DefaultSeed = 0xffffffff;
 
         private UInt32 hash;
         private UInt32 seed;
         private UInt32[] table;
         private static UInt32[]? defaultTable;
-
+        /// <summary>
+        /// 
+        /// </summary>
         public Crc32()
         {
             table = InitializeTable( DefaultPolynomial );
             seed = DefaultSeed;
             Initialize();
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="polynomial"></param>
+        /// <param name="seed"></param>
         public Crc32( UInt32 polynomial, UInt32 seed )
         {
             table = InitializeTable( polynomial );
             this.seed = seed;
             Initialize();
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         public override void Initialize()
         {
             hash = seed;
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="buffer"></param>
+        /// <param name="start"></param>
+        /// <param name="length"></param>
         protected override void HashCore( byte[] buffer, int start, int length )
         {
             hash = CalculateHash( table, hash, buffer, start, length );
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         protected override byte[] HashFinal()
         {
             var hashBuffer = UInt32ToBigEndianBytes( ~hash );
             return hashBuffer;
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         public override int HashSize
         {
             get { return 32; }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="buffer"></param>
+        /// <returns></returns>
         public static UInt32 Compute( byte[] buffer )
         {
             return ~CalculateHash( InitializeTable( DefaultPolynomial ), DefaultSeed, buffer, 0, buffer.Length );
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="seed"></param>
+        /// <param name="buffer"></param>
+        /// <returns></returns>
         public static UInt32 Compute( UInt32 seed, byte[] buffer )
         {
             return ~CalculateHash( InitializeTable( DefaultPolynomial ), seed, buffer, 0, buffer.Length );
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="polynomial"></param>
+        /// <param name="seed"></param>
+        /// <param name="buffer"></param>
+        /// <returns></returns>
         public static UInt32 Compute( UInt32 polynomial, UInt32 seed, byte[] buffer )
         {
             return ~CalculateHash( InitializeTable( polynomial ), seed, buffer, 0, buffer.Length );
@@ -80,7 +122,7 @@ namespace SteamKit2
                     if ( ( entry & 1 ) == 1 )
                         entry = ( entry >> 1 ) ^ polynomial;
                     else
-                        entry = entry >> 1;
+                        entry >>= 1;
                 createTable[ i ] = entry;
             }
 
@@ -101,7 +143,7 @@ namespace SteamKit2
             return crc;
         }
 
-        private byte[] UInt32ToBigEndianBytes( UInt32 x )
+        private static byte[] UInt32ToBigEndianBytes( UInt32 x )
         {
             return new byte[] {
 			    (byte)((x >> 24) & 0xff),
