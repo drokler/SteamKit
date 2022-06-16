@@ -112,24 +112,30 @@ namespace SteamKit2
                 return;
             }
 
-            var logon = new ClientMsgProtobuf<CMsgClientLogon>( EMsg.ClientLogonGameServer );
+            var logon = CreateServerLogonMessage(details, Client.Universe, this.Client.LocalIP! );
 
-            SteamID gsId = new SteamID( 0, 0, Client.Universe, EAccountType.GameServer );
+            this.Client.Send( logon );
+        }
+
+        public static ClientMsgProtobuf<CMsgClientLogon> CreateServerLogonMessage(LogOnDetails details, EUniverse universe, IPAddress address)
+        {
+            var logon = new ClientMsgProtobuf<CMsgClientLogon>(EMsg.ClientLogonGameServer);
+
+            SteamID gsId = new SteamID(0, 0, universe, EAccountType.GameServer);
 
             logon.ProtoHeader.client_sessionid = 0;
             logon.ProtoHeader.steamid = gsId.ConvertToUInt64();
 
-            logon.Body.obfuscated_private_ip = NetHelpers.GetMsgIPAddress( this.Client.LocalIP! ).ObfuscatePrivateIP();
+            logon.Body.obfuscated_private_ip = NetHelpers.GetMsgIPAddress( address ).ObfuscatePrivateIP();
 
             logon.Body.protocol_version = MsgClientLogon.CurrentProtocol;
 
-            logon.Body.client_os_type = ( uint )Utils.GetOSType();
-            logon.Body.game_server_app_id = ( int )details.AppID;
-            logon.Body.machine_id = HardwareUtils.GetMachineID( details.Token!);
+            logon.Body.client_os_type = (uint) Utils.GetOSType();
+            logon.Body.game_server_app_id = (int) details.AppID;
+            logon.Body.machine_id = HardwareUtils.GetMachineID(details.Token!);
 
             logon.Body.game_server_token = details.Token;
-
-            this.Client.Send( logon );
+            return logon;
         }
 
         /// <summary>
