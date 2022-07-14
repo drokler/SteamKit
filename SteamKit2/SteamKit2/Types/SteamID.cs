@@ -346,6 +346,8 @@ namespace SteamKit2
         /// <returns>A 64bit integer representing this SteamID.</returns>
         public ulong ConvertToUInt64() => this.steamid.Data;
 
+        public string ConvertToString() => this.steamid.Data.ToString();
+
         /// <summary>
         /// Returns a static account key used for grouping accounts with differing instances.
         /// </summary>

@@ -77,6 +77,16 @@ namespace SteamKit2
         }
 
         /// <summary>
+        /// This callback is fired when a game coordinator message is recieved from the network.
+        /// </summary>
+        public class ServerWelcomeMessageCallback : MessageCallback
+        {
+            internal ServerWelcomeMessageCallback( CMsgGCClient gcMsg ) : base( gcMsg )
+            {
+            }
+        }
+
+        /// <summary>
         /// 
         /// </summary>
         public class ClientRequestJoinServerDataMessageCallback : MessageCallback
@@ -95,6 +105,17 @@ namespace SteamKit2
             {
             }
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public class ServerDataResponseMessageCallback : MessageCallback
+        {
+            internal ServerDataResponseMessageCallback( CMsgGCClient gcMsg ) : base( gcMsg )
+            {
+            }
+        }
+
         /// <summary>
         /// 
         /// </summary>

@@ -14,6 +14,7 @@ using System.Linq;
 using System.Threading;
 using ProtoBuf;
 using SteamKit2.Internal;
+using SteamKit2.SteamTicketAuth;
 
 namespace SteamKit2
 {
@@ -81,9 +82,9 @@ namespace SteamKit2
 
             // add this library's handlers
             // notice: SteamFriends should be added before SteamUser due to AccountInfoCallback
-            //this.AddHandler( new SteamFriends() );
+            this.AddHandler( new SteamFriends() );
             this.AddHandler( new SteamUser() );
-            //this.AddHandler( new SteamApps() );
+            this.AddHandler( new SteamApps() );
             this.AddHandler( new SteamGameCoordinator() );
             this.AddHandler( new SteamGameServer() );
             //this.AddHandler( new SteamUserStats() );
@@ -96,7 +97,7 @@ namespace SteamKit2
             //this.AddHandler( new SteamMatchmaking() );
             this.AddHandler( new SteamNetworking() );
             //this.AddHandler( new SteamContent() );
-
+            this.AddHandler( new SteamAuthTicketHandler() );
             using ( var process = Process.GetCurrentProcess() )
             {
                 this.processStartTime = process.StartTime;

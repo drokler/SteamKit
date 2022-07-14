@@ -58,4 +58,8 @@
     <PackageReference Include="protobuf-net" Version="3.1.4" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Steam\Handlers\SteamTicketAuth\" />
+  </ItemGroup>
+
 </Project>

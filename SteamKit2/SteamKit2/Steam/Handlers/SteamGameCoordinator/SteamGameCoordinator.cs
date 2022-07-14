@@ -109,6 +109,12 @@ namespace SteamKit2
                 case ( uint )ESOMsg.k_ESOMsg_UpdateMultiple:
                     this.Client.PostCallback( new UpdateMultipleMessageCallback( msg.Body ) );
                     break;
+
+                case ( uint )EGCBaseClientMsg.k_EMsgGCServerWelcome:
+                    this.Client.PostCallback( new ServerWelcomeMessageCallback( msg.Body ) );
+                    break;                
+                
+     
             }
 
 

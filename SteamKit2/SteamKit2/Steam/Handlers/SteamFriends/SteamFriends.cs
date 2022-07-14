@@ -37,7 +37,7 @@ namespace SteamKit2
             {
                 { EMsg.ClientPersonaState, HandlePersonaState },
                 { EMsg.ClientClanState, HandleClanState },
-                { EMsg.ClientFriendsList, HandleFriendsList },
+             //   { EMsg.ClientFriendsList, HandleFriendsList },
                 { EMsg.ClientFriendMsgIncoming, HandleFriendMsg },
                 { EMsg.ClientFriendMsgEchoToSender, HandleFriendEchoMsg },
                 { EMsg.ClientChatGetFriendMessageHistoryResponse, HandleFriendMessageHistoryResponse },
@@ -607,6 +607,18 @@ namespace SteamKit2
             unbanMember.Body.ChatAction = EChatAction.UnBan;
 
             this.Client.Send( unbanMember );
+        }
+
+        public static ClientMsgProtobuf<CMsgClientRequestFriendData> CreateRequestFriendData( ulong steamId )
+        {
+            var request = new ClientMsgProtobuf<CMsgClientRequestFriendData>( EMsg.ClientRequestFriendData );
+
+            request.Body.friends.Add( steamId );
+            request.Body.persona_state_requested = ( uint ) (EClientPersonaStateFlag.PlayerName | EClientPersonaStateFlag.Presence |
+                                                   EClientPersonaStateFlag.SourceID | EClientPersonaStateFlag.GameExtraInfo |
+                                                   EClientPersonaStateFlag.LastSeen);
+
+            return request;
         }
 
         /// <summary>
