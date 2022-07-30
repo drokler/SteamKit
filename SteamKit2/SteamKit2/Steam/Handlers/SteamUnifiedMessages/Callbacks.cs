@@ -6,6 +6,7 @@
 using System;
 using System.Reflection;
 using ProtoBuf;
+using SteamKit2.Internal;
 
 namespace SteamKit2
 {
@@ -112,6 +113,40 @@ namespace SteamKit2
                 var clientMsg = new ClientMsgProtobuf<T>( packetMsg );
                 return (clientMsg.Header.Proto.target_job_name, clientMsg.Body);
             }
+        }
+
+        /// <summary>
+        /// This callback represents a service notification recieved though <see cref="SteamUnifiedMessages"/>.
+        /// </summary>
+        public class ServiceMethodNotificationInventoryPlayTime : CallbackMsg
+        {
+
+            public CInventory_Response Response { get; }
+
+            public ServiceMethodNotificationInventoryPlayTime( CInventory_Response response )
+            {
+                Response = response;
+
+            }
+
+            
+        }
+
+        /// <summary>
+        /// This callback represents a service notification recieved though <see cref="SteamUnifiedMessages"/>.
+        /// </summary>
+        public class ServiceMethodNotificationInventory : CallbackMsg
+        {
+
+            public CInventory_Response Response { get; }
+
+            public ServiceMethodNotificationInventory( CInventory_Response response )
+            {
+                Response = response;
+
+            }
+
+
         }
     }
 }

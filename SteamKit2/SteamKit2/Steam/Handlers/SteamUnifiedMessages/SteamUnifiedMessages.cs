@@ -11,6 +11,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using ProtoBuf;
+using SteamKit2.Internal;
 
 namespace SteamKit2
 {
@@ -265,7 +266,19 @@ namespace SteamKit2
             }
 
             var callback = new ServiceMethodResponse( packetMsgProto );
+
             Client.PostCallback( callback );
+
+            if ( callback.ServiceName == "Inventory" && callback.RpcName == "ConsumePlaytime" )
+            {
+                var res = callback.GetDeserializedResponse<CInventory_Response>();
+                Client.PostCallback( new ServiceMethodNotificationInventoryPlayTime(res) );
+            } 
+            else if ( callback.ServiceName == "Inventory" && callback.RpcName == "GetInventory" )
+            {
+                var res = callback.GetDeserializedResponse<CInventory_Response>();
+                Client.PostCallback( new ServiceMethodNotificationInventory( res ) );
+            }
         }
 
         void HandleServiceMethod( IPacketMsg packetMsg )

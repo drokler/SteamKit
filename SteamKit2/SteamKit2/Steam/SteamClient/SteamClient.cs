@@ -92,7 +92,7 @@ namespace SteamKit2
             //this.AddHandler( new SteamCloud() );
             //this.AddHandler( new SteamWorkshop() );
             //this.AddHandler( new SteamTrading() );
-            //this.AddHandler( new SteamUnifiedMessages() );
+            this.AddHandler( new SteamUnifiedMessages() );
             //this.AddHandler( new SteamScreenshots() );
             //this.AddHandler( new SteamMatchmaking() );
             this.AddHandler( new SteamNetworking() );
